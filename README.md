@@ -4,6 +4,9 @@
 ![Streamlit](https://img.shields.io/badge/dashboard-Streamlit-ff4b4b)
 [![CI](https://github.com/xVenomme/smart-money-screener/actions/workflows/ci.yml/badge.svg)](https://github.com/xVenomme/smart-money-screener/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://smart-money-screener.streamlit.app)
+
+**🚀 Live demo: [smart-money-screener.streamlit.app](https://smart-money-screener.streamlit.app)**
 
 A stock screener that answers four questions:
 
@@ -163,7 +166,7 @@ smart-money-screener/
 - [ ] Portfolio-level backtest (top-N stocks rebalanced monthly)
 - [ ] Point-in-time fundamentals for a full factor backtest
 - [ ] E-mail / Telegram alerts when a signal changes
-- [ ] Public demo on Streamlit Community Cloud
+- [x] Public demo on Streamlit Community Cloud
 
 ## 🇮🇹 In breve
 
