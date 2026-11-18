@@ -1,0 +1,77 @@
+# Smart Money Screener - default configuration.
+# Copy this file, edit it and pass it with `--config my_config.yaml`
+# (CLI) or set the SCREENER_CONFIG environment variable (dashboard).
+
+data:
+  history_period: "2y"       # daily price history used by the screener
+  cache_dir: ".cache"        # local disk cache (prices, fundamentals, 13F, CUSIP map)
+  cache_ttl_hours: 12
+  max_workers: 8             # parallel requests for fundamentals
+
+universes:
+  us_large_caps:
+    file: us_large_caps.csv
+    benchmark: SPY
+    description: "~100 US large caps (edit the CSV freely)"
+  italy_ftse_mib:
+    file: italy_ftse_mib.csv
+    benchmark: FTSEMIB.MI
+    description: "Italian blue chips (FTSE MIB members, Borsa Italiana)"
+  sp500:
+    source: wikipedia_sp500
+    fallback_file: us_large_caps.csv
+    benchmark: SPY
+    description: "Full S&P 500, list scraped from Wikipedia (slow first run)"
+
+# --- Risk classification ------------------------------------------------
+# Each metric earns 0 / 1 / 2 risk points. For "higher is riskier" metrics
+# the two numbers are [max for 0 points, max for 1 point].
+risk:
+  volatility: [0.22, 0.35]       # 1y annualised volatility
+  beta: [0.90, 1.30]             # 1y beta vs the universe benchmark
+  max_drawdown: [0.20, 0.35]     # worst 1y peak-to-trough loss (absolute value)
+  debt_to_equity: [100, 200]     # Yahoo reports D/E in percent (150 = 1.5x)
+  market_cap: [5.0e+10, 1.0e+10] # reversed: >= 50B -> 0 pts, >= 10B -> 1 pt, else 2
+  volatility_weight: 2           # volatility counts double
+  volatility_extreme: 0.45       # above this the stock is always "High"
+  buckets:
+    low: 3                       # total points <= 3  -> Low
+    medium: 7                    # total points <= 7  -> Medium, otherwise High
+
+# --- Opportunity score profiles -----------------------------------------
+# Weights are normalised automatically; factors with no data are dropped.
+profiles:
+  balanced:    {value: 0.20, quality: 0.20, growth: 0.15, momentum: 0.20, income: 0.10, upside: 0.10, smart_money: 0.05}
+  income:      {value: 0.15, quality: 0.25, growth: 0.05, momentum: 0.10, income: 0.40, upside: 0.05, smart_money: 0.00}
+  growth:      {value: 0.05, quality: 0.15, growth: 0.35, momentum: 0.30, income: 0.00, upside: 0.10, smart_money: 0.05}
+  value:       {value: 0.40, quality: 0.25, growth: 0.05, momentum: 0.10, income: 0.10, upside: 0.10, smart_money: 0.00}
+  smart_money: {value: 0.10, quality: 0.15, growth: 0.10, momentum: 0.15, income: 0.05, upside: 0.05, smart_money: 0.40}
+
+# --- Timing signals & trade plan ----------------------------------------
+signals:
+  rsi_oversold: 30
+  rsi_overbought: 70
+  buy_threshold: 20              # technical score >= 20 -> bullish timing
+  strong_threshold: 60
+  sell_threshold: -20
+  min_opportunity_buy: 50        # opportunity percentile needed for BUY (top half)
+  min_opportunity_strong: 75     # top quarter
+  min_opportunity_watch: 60
+  atr_stop_multiplier: {Low: 2.0, Medium: 2.5, High: 3.0}
+  trailing_atr_multiplier: 3.0
+  reward_risk: 2.0               # take profit = entry + 2 x (entry - stop)
+
+backtest:
+  entry_threshold: 20
+  exit_threshold: -20
+  trailing_atr_multiplier: 3.0
+  cost_bps: 10                   # per side, commissions + slippage
+  years: 5
+
+smart_money:
+  funds_file: funds.yaml
+  # The SEC asks automated clients to identify themselves.
+  # Override with the SEC_USER_AGENT environment variable.
+  sec_user_agent: "SmartMoneyScreener contact@example.com"
+  top_positions_to_map: 15       # per fund, CUSIP -> ticker lookups (OpenFIGI)
+  stale_after_days: 200          # ignore funds whose last 13F is older than this

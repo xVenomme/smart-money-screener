@@ -1,0 +1,18 @@
+# "Superinvestors" tracked through their quarterly SEC Form 13F-HR filings.
+# Concentrated, long-term managers are preferred: a fund with thousands of
+# positions (e.g. quant funds) tells you little about conviction.
+# CIK = SEC Central Index Key. Find more at https://www.sec.gov/cgi-bin/browse-edgar
+funds:
+  - {name: "Berkshire Hathaway",          manager: "Warren Buffett / Greg Abel", cik: 1067983}
+  - {name: "Pershing Square",             manager: "Bill Ackman",                cik: 1336528}
+  - {name: "Appaloosa",                   manager: "David Tepper",               cik: 1656456}
+  - {name: "Duquesne Family Office",      manager: "Stanley Druckenmiller",      cik: 1536411}
+  - {name: "Himalaya Capital",            manager: "Li Lu",                      cik: 1709323}
+  - {name: "Baupost Group",               manager: "Seth Klarman",               cik: 1061768}
+  - {name: "Akre Capital Management",     manager: "Akre team",                  cik: 1112520}
+  - {name: "Viking Global Investors",     manager: "Andreas Halvorsen",          cik: 1103804}
+  - {name: "Third Point",                 manager: "Dan Loeb",                   cik: 1040273}
+  - {name: "Greenlight Capital",          manager: "David Einhorn",              cik: 1079114}
+  - {name: "Tiger Global Management",     manager: "Chase Coleman",              cik: 1167483}
+  - {name: "Lone Pine Capital",           manager: "Lone Pine team",             cik: 1061165}
+  - {name: "Coatue Management",           manager: "Philippe Laffont",           cik: 1135730}

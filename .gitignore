@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local data cache (prices, fundamentals, 13F filings, CUSIP map)
+.cache/
+
+# Exported results
+*.csv
+!src/screener/resources/universes/*.csv
+
+# Secrets / editor
+.env
+.streamlit/secrets.toml
+.vscode/
+.idea/
+.DS_Store

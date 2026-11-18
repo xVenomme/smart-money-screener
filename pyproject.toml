@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smart-money-screener"
+version = "0.1.0"
+description = "Stock screener that combines institutional 13F holdings, factor scoring, risk classes and rule-based buy/sell signals with an honest backtest."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["stock-screener", "13f", "sec-edgar", "quant", "streamlit", "backtesting"]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24",
+  "yfinance>=0.2.40",
+  "requests>=2.31",
+  "pyyaml>=6.0",
+  "rich>=13.0",
+  "plotly>=5.18",
+  "streamlit>=1.46",
+  "lxml>=4.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[project.scripts]
+screener = "screener.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+screener = ["resources/*.yaml", "resources/universes/*.csv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"app.py" = ["E402"]
